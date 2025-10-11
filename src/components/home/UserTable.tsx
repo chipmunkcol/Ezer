@@ -1,11 +1,18 @@
 import { Table, type TableProps } from "antd";
 import { userInfo, type UserInfo } from "@/data/dummy.ts";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getMemers } from "../../utils/api/api";
 
 const dataSource = userInfo;
 
 const UserTable = () => {
   const navigate = useNavigate();
+  const { data } = useQuery({
+    queryKey: ["members"],
+    queryFn: getMemers,
+  });
+  console.log("🚀 ~ UserTable ~ dat:", data);
 
   const columns: TableProps<UserInfo>["columns"] = [
     {

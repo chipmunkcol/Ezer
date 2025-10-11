@@ -11,4 +11,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/admin": {
+        target: "https://hyezer-dev.webhop.me", // 실제 API 서버
+        changeOrigin: true, // origin 헤더를 target으로 변경
+        secure: false, // https 인증서 무시 (개발용)
+      },
+    },
+  },
 });

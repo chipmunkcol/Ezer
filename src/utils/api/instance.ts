@@ -14,7 +14,7 @@ export interface ErrorRes {
 }
 
 const api = axios.create({
-  baseURL: "https://ezeryoungcouple-dev.duckdns.org",
+  baseURL: "/",
   // maxRedirects: 3,
 });
 
