@@ -1,10 +1,7 @@
-import { Table, type TableProps } from "antd";
-import { userInfo, type UserInfo } from "@/data/dummy.ts";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getMemers } from "../../utils/api/api";
-
-const dataSource = userInfo;
+import { Table, type TableProps } from "antd";
+import { useNavigate } from "react-router-dom";
+import { getMemers, type ResponseMember } from "../../utils/api/api";
 
 const UserTable = () => {
   const navigate = useNavigate();
@@ -14,46 +11,60 @@ const UserTable = () => {
   });
   console.log("🚀 ~ UserTable ~ dat:", data);
 
-  const columns: TableProps<UserInfo>["columns"] = [
+  const columns: TableProps<ResponseMember>["columns"] = [
     {
-      key: "이름",
+      key: "name",
       title: "이름",
-      dataIndex: "이름",
+      dataIndex: "name",
       render: (value, record) => (
         <a onClick={() => navigate(`/user/${record?.id}`)}>{value}</a>
       ),
     },
     {
-      key: "직분",
+      key: "position",
       title: "직분",
-      dataIndex: "직분",
+      dataIndex: "position",
+      render: (value) => (
+        <div>
+          {value === "SAINT"
+            ? "성도"
+            : value === "KWONSA"
+            ? "권사"
+            : value === "DEACONESS"
+            ? "집사"
+            : "회원"}
+        </div>
+      ),
     },
     {
-      key: "성별",
+      key: "gender",
       title: "성별",
-      dataIndex: "성별",
+      dataIndex: "gender",
+      render: (value) => (value === "MALE" ? "남" : "여"),
     },
     {
-      key: "바나바교육",
+      key: "barnabasEducation",
       title: "바나바교육",
-      dataIndex: "바나바교육",
-
-      render: (value) => (value ? "O" : "X"),
+      dataIndex: "barnabasEducation",
+      render: (value) => (value === "COMPLETED" ? "O" : "X"),
     },
     {
-      key: "세례여부",
+      key: "baptism",
       title: "세례여부",
-      dataIndex: "세례여부",
-      render: (value) => (value === null ? "미정" : value ? "O" : "X"),
+      dataIndex: "baptism",
+      render: (value) => (value === "RECEIVED" ? "O" : "X"),
     },
     {
-      key: "제자반",
+      key: "discipleship",
       title: "제자반",
-      dataIndex: "제자반",
-      render: (value) => (value ? "O" : "X"),
+      dataIndex: "discipleship",
+      render: (value) => (value === "COMPLETED" ? "O" : "X"),
+    },
+    {
+      key: "",
     },
   ];
-  return <Table dataSource={dataSource} columns={columns} />;
+  return <Table dataSource={data?.items} columns={columns} />;
 };
 
 export default UserTable;

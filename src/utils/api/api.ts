@@ -1,8 +1,21 @@
 import api, { type ErrorRes } from "./instance";
 
-export const getMemers = async () => {
+export const getMemers = async (): Promise<Members> => {
   try {
     const response = await api.get("/admin/members");
+    return response.data;
+  } catch (error) {
+    const err = error as ErrorRes;
+    throw {
+      status: err.error.status,
+      message: err.error.message,
+    };
+  }
+};
+
+export const getMemberById = async (id: string): Promise<ResponseMember> => {
+  try {
+    const response = await api.get(`/admin/members/${id}`);
     return response.data;
   } catch (error) {
     const err = error as ErrorRes;
@@ -64,7 +77,7 @@ export const deleteMember = async (id: string): Promise<void> => {
 
 interface Member {
   name: string;
-  position: "SAINT"; // | 'DEACON' | 'DEACONESS' | 'MEMBER'
+  position: "SAINT"; // | 'KWONSA' | 'DEACONESS' | 'MEMBER'
   barnabasEducation: "COMPLETED"; // | 'NOT_COMPLETED'
   baptism: "RECEIVED"; // | 'NOT_RECEIVED' | 'UNDECIDED'
   discipleship: "COMPLETED"; // | 'NOT_COMPLETED'
@@ -78,8 +91,15 @@ interface Member {
   note: string;
 }
 
-interface ResponseMember extends Member {
+export interface ResponseMember extends Member {
   id: string;
   createdAt: string; //"2025-01-01T10:00:00.000Z",
   updatedAt: string; // "2025-01-01T10:00:00.000Z"
+}
+
+interface Members {
+  items: ResponseMember[];
+  total: number;
+  page: number;
+  size: number;
 }
