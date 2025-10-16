@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { Table, type TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import { getMemers, type ResponseMember } from "../../utils/api/api";
+import { type Members, type ResponseMember } from "../../utils/api/api";
 
-const UserTable = () => {
+const UserTable = ({
+  data,
+  setCurrentPage,
+}: {
+  data: Members;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const navigate = useNavigate();
-  const { data } = useQuery({
-    queryKey: ["members"],
-    queryFn: getMemers,
-  });
+
   console.log("🚀 ~ UserTable ~ dat:", data);
 
   const columns: TableProps<ResponseMember>["columns"] = [
@@ -64,7 +67,21 @@ const UserTable = () => {
       key: "",
     },
   ];
-  return <Table dataSource={data?.items} columns={columns} />;
+  return (
+    <Table
+      dataSource={data?.items}
+      columns={columns}
+      onChange={(pagination) => {
+        if (pagination.current) {
+          setCurrentPage(pagination.current);
+        }
+      }}
+      pagination={{
+        total: data?.total,
+        pageSize: 10,
+      }}
+    />
+  );
 };
 
 export default UserTable;

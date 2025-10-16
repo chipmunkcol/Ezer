@@ -1,8 +1,14 @@
 import api, { type ErrorRes } from "./instance";
 
-export const getMemers = async (): Promise<Members> => {
+export const getMemers = async (
+  page: number,
+  size: number,
+  name: string
+): Promise<Members> => {
   try {
-    const response = await api.get("/admin/members");
+    const response = await api.get(`/admin/members`, {
+      params: name ? { page, size, name } : { page, size },
+    });
     return response.data;
   } catch (error) {
     const err = error as ErrorRes;
@@ -93,7 +99,7 @@ export interface ResponseMember extends Member {
   updatedAt: string; // "2025-01-01T10:00:00.000Z"
 }
 
-interface Members {
+export interface Members {
   items: ResponseMember[];
   total: number;
   page: number;
