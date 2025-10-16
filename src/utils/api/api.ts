@@ -37,10 +37,7 @@ export const postMember = async (Member: Member): Promise<ResponseMember> => {
     return response.data;
   } catch (error) {
     const err = error as ErrorRes;
-    throw {
-      status: err.error.status,
-      message: err.error.message,
-    };
+    throw err;
   }
 };
 
@@ -65,23 +62,22 @@ export const updateMember = async ({
 
 export const deleteMember = async (id: string): Promise<void> => {
   try {
-    await api.delete(`/admin/members/${id}`);
+    return await api.delete(`/admin/members/${id}`);
   } catch (error) {
-    const err = error as ErrorRes;
+    // const err = error as ErrorRes;
     throw {
-      status: err.error.status,
-      message: err.error.message,
+      message: error,
     };
   }
 };
 
 interface Member {
   name: string;
-  position: "SAINT"; // | 'KWONSA' | 'DEACONESS' | 'MEMBER'
-  barnabasEducation: "COMPLETED"; // | 'NOT_COMPLETED'
-  baptism: "RECEIVED"; // | 'NOT_RECEIVED' | 'UNDECIDED'
-  discipleship: "COMPLETED"; // | 'NOT_COMPLETED'
-  gender: "MALE"; // | 'FEMALE'
+  position: string | "SAINT"; // | 'KWONSA' | 'DEACONESS' | 'MEMBER'
+  barnabasEducation: string | "COMPLETED"; // | 'NOT_COMPLETED'
+  baptism: string | "RECEIVED"; // | 'NOT_RECEIVED' | 'UNDECIDED'
+  discipleship: string | "COMPLETED"; // | 'NOT_COMPLETED'
+  gender: string | "MALE"; // | 'FEMALE'
   phone: string;
   birthDate: string; // YYYY-MM-DD
   cellId: null; // | number

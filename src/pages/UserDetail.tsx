@@ -21,6 +21,12 @@ const UserDetail = () => {
   });
   console.log("🚀 ~ UserDetail ~ data:", data);
 
+  const translate_ko = {
+    SAINT: "성도",
+    KWONSA: "권사",
+    DEACONESS: "집사",
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -61,7 +67,9 @@ const UserDetail = () => {
             </div>
           </div>
           <div className="flex">
-            <div className="flex-1">직분: {data?.position}</div>
+            <div className="flex-1">
+              직분: {translate_ko[data?.position as keyof typeof translate_ko]}
+            </div>
             <div className="flex-1">
               세례 여부 {data?.baptism === "RECEIVED" ? "O" : "X"}
             </div>
@@ -79,18 +87,31 @@ const UserDetail = () => {
         {/* 구분선 */}
         <div className="my-6 border-b border-gray-300" />
 
-        <div>
+        <div className="flex flex-col gap-4">
           <div>추가정보</div>
-          <div>소속셀</div>
+          {/* <div>소속셀</div>
           <div>생년월일</div>
           <div>전화번호</div>
           <div>등록일</div>
-          <div>소속가족</div>
+          <div>소속가족</div> */}
+          <div className="flex">
+            <div className="flex-1">소속셀: {data?.cellId || "미정"}</div>
+            <div className="flex-1">생년월일: {data?.birthDate}</div>
+          </div>
+          <div className="flex">
+            <div className="flex-1">전화번호: {data?.phone}</div>
+            <div className="flex-1">등록일: {data?.registeredAt}</div>
+          </div>
+          <div className="flex">
+            <div className="flex-1">소속가족: {data?.familyId || "미정"}</div>
+            <div className="flex-1"></div>
+          </div>
         </div>
 
         {/* 구분선 */}
         <div className="my-6 border-b border-gray-300" />
         <div>비고</div>
+        {data?.note || "없음"}
       </div>
     </div>
   );

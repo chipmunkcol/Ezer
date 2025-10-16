@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 // 에러 응답 타입
 export interface ErrorRes {
@@ -19,7 +19,7 @@ const api = axios.create({
 });
 
 // 요청 인터셉터 추가하기
-axios.interceptors.request.use(
+api.interceptors.request.use(
   function (config) {
     // 요청이 전달되기 전에 작업 수행
     return config;
@@ -31,7 +31,7 @@ axios.interceptors.request.use(
 );
 
 // 응답 인터셉터 추가하기
-axios.interceptors.response.use(
+api.interceptors.response.use(
   function (response) {
     // 2xx 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
     // 응답 데이터가 있는 작업 수행
@@ -40,9 +40,11 @@ axios.interceptors.response.use(
   function (error) {
     // 2xx 외의 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
     // 응답 오류가 있는 작업 수행
-    const err: ErrorRes = error;
-    console.error("API Error:", err);
-    return Promise.reject(err);
+    if (isAxiosError(error)) {
+      const err = error?.response?.data.error as ErrorRes["error"];
+      return Promise.reject(err);
+    }
+    return Promise.reject(error);
   }
 );
 
