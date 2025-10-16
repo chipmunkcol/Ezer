@@ -14,7 +14,7 @@ export interface ErrorRes {
 }
 
 const api = axios.create({
-  baseURL: "/",
+  baseURL: import.meta.env.VITE_API_URL,
   // maxRedirects: 3,
 });
 
