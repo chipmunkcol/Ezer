@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { Table, type TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { type Members, type ResponseMember } from "../../utils/api/api";
@@ -7,7 +6,7 @@ const UserTable = ({
   data,
   setCurrentPage,
 }: {
-  data: Members;
+  data: Members | undefined;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const navigate = useNavigate();

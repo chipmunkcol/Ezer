@@ -31,9 +31,9 @@ const Home = () => {
     []
   );
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  // if (!data) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <main className="py-4 px-10 ">
@@ -41,7 +41,11 @@ const Home = () => {
       <div className="flex flex-col gap-6">
         <div className="flex justify-between">
           <div className="flex gap-2">
-            <Input placeholder={"이름으로 검색..."} onChange={onChangeQuery} />
+            <Input
+              placeholder={"이름으로 검색..."}
+              // value={query}
+              onChange={onChangeQuery}
+            />
             <Button>검색</Button>
           </div>
           <Button type="primary" onClick={() => navigate("/add/user")}>
