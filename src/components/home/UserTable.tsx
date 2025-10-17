@@ -23,6 +23,12 @@ const UserTable = ({
       ),
     },
     {
+      key: "gender",
+      title: "성별",
+      dataIndex: "gender",
+      render: (value) => (value === "MALE" ? "남" : "여"),
+    },
+    {
       key: "position",
       title: "직분",
       dataIndex: "position",
@@ -38,32 +44,38 @@ const UserTable = ({
         </div>
       ),
     },
+    // {
+    //   key: "barnabasEducation",
+    //   title: "바나바교육",
+    //   dataIndex: "barnabasEducation",
+    //   render: (value) => (value === "COMPLETED" ? "O" : "X"),
+    // },
+    // {
+    //   key: "baptism",
+    //   title: "세례여부",
+    //   dataIndex: "baptism",
+    //   render: (value) => (value === "RECEIVED" ? "O" : "X"),
+    // },
+    // {
+    //   key: "discipleship",
+    //   title: "제자반",
+    //   dataIndex: "discipleship",
+    //   render: (value) => (value === "COMPLETED" ? "O" : "X"),
+    // },
     {
-      key: "gender",
-      title: "성별",
-      dataIndex: "gender",
-      render: (value) => (value === "MALE" ? "남" : "여"),
+      key: "birthDate",
+      title: "생년월일",
+      dataIndex: "birthDate",
     },
     {
-      key: "barnabasEducation",
-      title: "바나바교육",
-      dataIndex: "barnabasEducation",
-      render: (value) => (value === "COMPLETED" ? "O" : "X"),
+      key: "phone",
+      title: "전화번호",
+      dataIndex: "phone",
     },
     {
-      key: "baptism",
-      title: "세례여부",
-      dataIndex: "baptism",
-      render: (value) => (value === "RECEIVED" ? "O" : "X"),
-    },
-    {
-      key: "discipleship",
-      title: "제자반",
-      dataIndex: "discipleship",
-      render: (value) => (value === "COMPLETED" ? "O" : "X"),
-    },
-    {
-      key: "",
+      key: "registeredAt",
+      title: "등록일",
+      dataIndex: "registeredAt",
     },
   ];
   return (

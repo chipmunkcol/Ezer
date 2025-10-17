@@ -38,13 +38,15 @@ export const getMemberById = async (id: string): Promise<ResponseMember> => {
  * @returns 생성된 멤버 데이터
  */
 export const postMember = async (Member: Member): Promise<ResponseMember> => {
-  try {
-    const response = await api.post("/admin/members", Member);
-    return response.data;
-  } catch (error) {
-    const err = error as ErrorRes;
-    throw err;
-  }
+  const response = await api.post("/admin/members", Member);
+  return response.data;
+
+  // interceptor에서 에러 처리 해주니까 그냥 이렇게만 해도 되는거아님?
+  // try {
+  // } catch (error) {
+  //   const err = error as ErrorRes;
+  //   throw err;
+  // }
 };
 
 export const updateMember = async ({
@@ -67,14 +69,14 @@ export const updateMember = async ({
 };
 
 export const deleteMember = async (id: string): Promise<void> => {
-  try {
-    return await api.delete(`/admin/members/${id}`);
-  } catch (error) {
-    // const err = error as ErrorRes;
-    throw {
-      message: error,
-    };
-  }
+  return await api.delete(`/admin/members/${id}`);
+  // try {
+  // } catch (error) {
+  //   // const err = error as ErrorRes;
+  //   throw {
+  //     message: error,
+  //   };
+  // }
 };
 
 interface Member {

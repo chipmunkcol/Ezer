@@ -15,9 +15,11 @@ export default defineConfig({
     },
   },
   server: {
+    // port: 3000,
     proxy: {
       "/admin": {
-        target: API_URL, // 실제 API 서버
+        // target: API_URL, // 실제 API 서버
+        target: "https://hyezer-dev.webhop.me",
         changeOrigin: true, // origin 헤더를 target으로 변경
         secure: false, // https 인증서 무시 (개발용)
       },

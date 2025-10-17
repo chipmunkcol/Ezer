@@ -1,31 +1,55 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "antd";
 import { User } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getMemberById } from "../utils/api/api";
+import { deleteMember, getMemberById } from "../utils/api/api";
+
+const translate_ko = {
+  SAINT: "성도",
+  KWONSA: "권사",
+  DEACONESS: "집사",
+};
 
 const UserDetail = () => {
   const { id } = useParams();
   console.log("🚀 ~ UserDetail ~ id:", id);
   const navigate = useNavigate();
-  // const data = userInfo.find((user) => user.id === Number(id));
-  // console.log("🚀 ~ UserDetail ~ data:", data);
-  // if (!id) {
-  //   return <div>잘못된 접근입니다.</div>;
-  // }
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["members", id],
     queryFn: () => getMemberById(id!),
     enabled: !!id,
   });
-  console.log("🚀 ~ UserDetail ~ data:", data);
 
-  const translate_ko = {
-    SAINT: "성도",
-    KWONSA: "권사",
-    DEACONESS: "집사",
+  const queryClient = useQueryClient();
+  const { mutate: deleteUserMutate } = useMutation({
+    mutationFn: (id: string) => deleteMember(id),
+    onSuccess: () => {
+      alert("회원이 삭제되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["members"] });
+      navigate("/");
+    },
+    onError: (error) => {
+      console.log("회원 삭제 실패", error);
+      alert(error.message || "회원 삭제에 실패했습니다.");
+    },
+  });
+
+  const handleUserDelete = (id: string | undefined) => {
+    if (!id) return;
+
+    const res = confirm("정말로 회원을 삭제하시겠습니까?");
+    if (res) {
+      deleteUserMutate(id);
+    }
   };
+
+  const goEditUser = (id: string | undefined) => {
+    if (!id) return;
+    navigate(`/edit/user/${id}`);
+  };
+
+  console.log("🚀 ~ UserDetail ~ data:", data);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -53,8 +77,10 @@ const UserDetail = () => {
           <div>{data?.name}</div>
         </div>
         <div className="flex gap-2">
-          <Button>수정</Button>
-          <Button danger>삭제</Button>
+          <Button onClick={() => goEditUser(id)}>수정</Button>
+          <Button danger onClick={() => handleUserDelete(id)}>
+            삭제
+          </Button>
         </div>
       </div>
       <div>
@@ -68,7 +94,7 @@ const UserDetail = () => {
           </div>
           <div className="flex">
             <div className="flex-1">
-              직분: {translate_ko[data?.position as keyof typeof translate_ko]}
+              성별: {data?.gender === "MALE" ? "남" : "여"}
             </div>
             <div className="flex-1">
               세례 여부 {data?.baptism === "RECEIVED" ? "O" : "X"}
@@ -76,7 +102,7 @@ const UserDetail = () => {
           </div>
           <div className="flex">
             <div className="flex-1">
-              성별: {data?.gender === "MALE" ? "남" : "여"}
+              직분: {translate_ko[data?.position as keyof typeof translate_ko]}
             </div>
             <div className="flex-1">
               제자반 여부 {data?.discipleship === "COMPLETED" ? "O" : "X"}
@@ -96,16 +122,14 @@ const UserDetail = () => {
           <div>소속가족</div> */}
           <div className="flex">
             <div className="flex-1">소속셀: {data?.cellId || "미정"}</div>
-            <div className="flex-1">생년월일: {data?.birthDate}</div>
-          </div>
-          <div className="flex">
-            <div className="flex-1">전화번호: {data?.phone}</div>
-            <div className="flex-1">등록일: {data?.registeredAt}</div>
-          </div>
-          <div className="flex">
             <div className="flex-1">소속가족: {data?.familyId || "미정"}</div>
-            <div className="flex-1"></div>
           </div>
+          <div className="flex">
+            <div className="flex-1">생년월일: {data?.birthDate}</div>
+            <div className="flex-1">전화번호: {data?.phone}</div>
+          </div>
+          <div className="flex-1">등록일: {data?.registeredAt}</div>
+          <div className="flex">{/* <div className="flex-1"></div> */}</div>
         </div>
 
         {/* 구분선 */}

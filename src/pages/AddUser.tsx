@@ -81,6 +81,7 @@ const AddUser = () => {
     },
     onError: (error) => {
       console.log("회원 등록 실패:", error);
+
       alert(error.message || "회원 등록에 실패했습니다. 다시 시도해주세요.");
     },
   });
