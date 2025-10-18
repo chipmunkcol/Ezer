@@ -15,6 +15,12 @@ const UserTable = ({
 
   const columns: TableProps<ResponseMember>["columns"] = [
     {
+      key: "cellId",
+      title: "셀",
+      dataIndex: "cellId",
+      render: (value) => <div>{value || "미셀"}</div>,
+    },
+    {
       key: "name",
       title: "이름",
       dataIndex: "name",

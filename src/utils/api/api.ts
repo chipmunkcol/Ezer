@@ -3,7 +3,7 @@ import api, { type ErrorRes } from "./instance";
 export const getMemers = async (
   page: number,
   size: number,
-  name: string
+  name: string | null
 ): Promise<Members> => {
   try {
     const response = await api.get(`/admin/members`, {
@@ -49,23 +49,22 @@ export const postMember = async (Member: Member): Promise<ResponseMember> => {
   // }
 };
 
-export const updateMember = async ({
-  id,
-  member,
-}: {
-  id: string;
-  member: Member;
-}): Promise<ResponseMember> => {
-  try {
-    const response = await api.put(`/admin/members/${id}`, member);
-    return response.data;
-  } catch (error) {
-    const err = error as ErrorRes;
-    throw {
-      status: err.error.status,
-      message: err.error.message,
-    };
-  }
+export const updateMember = async (
+  id: string,
+  member: Member
+): Promise<ResponseMember> => {
+  const response = await api.put(`/admin/members/${id}`, member);
+  return response.data;
+  // try {
+  //   const response = await api.put(`/admin/members/${id}`, member);
+  //   return response.data;
+  // } catch (error) {
+  //   const err = error as ErrorRes;
+  //   throw {
+  //     status: err.error.status,
+  //     message: err.error.message,
+  //   };
+  // }
 };
 
 export const deleteMember = async (id: string): Promise<void> => {
@@ -79,20 +78,20 @@ export const deleteMember = async (id: string): Promise<void> => {
   // }
 };
 
-interface Member {
+export interface Member {
   name: string;
   position: string | "SAINT"; // | 'KWONSA' | 'DEACONESS' | 'MEMBER'
   barnabasEducation: string | "COMPLETED"; // | 'NOT_COMPLETED'
   baptism: string | "RECEIVED"; // | 'NOT_RECEIVED' | 'UNDECIDED'
   discipleship: string | "COMPLETED"; // | 'NOT_COMPLETED'
   gender: string | "MALE"; // | 'FEMALE'
-  phone: string;
-  birthDate: string; // YYYY-MM-DD
-  cellId: null; // | number
-  familyId: null; // | number
-  barnabasName: string;
-  registeredAt: string; // YYYY-MM-DD
-  note: string;
+  phone: string | null;
+  birthDate: string | null; // YYYY-MM-DD
+  cellId: string | null; //
+  familyId: string | null; //
+  barnabasName: string | null;
+  registeredAt: string | null; // YYYY-MM-DD
+  note: string | null;
 }
 
 export interface ResponseMember extends Member {

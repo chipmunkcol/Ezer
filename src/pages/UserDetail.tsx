@@ -3,12 +3,7 @@ import { Button } from "antd";
 import { User } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteMember, getMemberById } from "../utils/api/api";
-
-const translate_ko = {
-  SAINT: "성도",
-  KWONSA: "권사",
-  DEACONESS: "집사",
-};
+import { translate_ko } from "../utils/function/function";
 
 const UserDetail = () => {
   const { id } = useParams();
@@ -102,7 +97,7 @@ const UserDetail = () => {
           </div>
           <div className="flex">
             <div className="flex-1">
-              직분: {translate_ko[data?.position as keyof typeof translate_ko]}
+              직분: {translate_ko(data?.position || "")}
             </div>
             <div className="flex-1">
               제자반 여부 {data?.discipleship === "COMPLETED" ? "O" : "X"}

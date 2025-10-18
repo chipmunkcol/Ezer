@@ -1,52 +1,67 @@
-import { Button, Input } from "antd";
-import UserTable from "../components/home/UserTable";
-import { useNavigate } from "react-router-dom";
-import { getMemers } from "../utils/api/api";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
-import debounce from "lodash.debounce";
+import { Button, Input } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import UserTable from "../components/home/UserTable";
+import { getMemers } from "../utils/api/api";
 
 const Home = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("🚀 ~ Home ~ currentPage:", currentPage);
   const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryUrl = searchParams.get("query");
+
+  const { data, refetch } = useQuery({
+    queryKey: ["members", queryUrl],
+    queryFn: () => getMemers(currentPage, 10, queryUrl),
+  });
+
+  useEffect(() => {
+    if (queryUrl) {
+      setQuery(queryUrl);
+      refetch();
+    }
+  }, [queryUrl]);
+
+  console.log("🚀 ~ Home ~ currentPage:", currentPage);
+  console.log("🚀 ~ Home ~ data:", data);
+  console.log("🚀 ~ Home ~ queryUrl:", queryUrl);
 
   const onChangeQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedSetQuery(e.target.value);
+    setQuery(e.target.value);
   };
 
-  const { data } = useQuery({
-    queryKey: ["members", currentPage, query],
-    queryFn: () => getMemers(currentPage, 10, query),
-  });
-  console.log("🚀 ~ Home ~ data:", data);
+  const onSearch = () => {
+    setCurrentPage(1);
+    setSearchParams({ query });
+  };
 
-  // 디바운스된 setter를 useMemo로 캐싱
-  const debouncedSetQuery = useMemo(
-    () =>
-      debounce((value: string) => {
-        setQuery(value);
-      }, 300),
-    []
-  );
+  const onClickSearch = () => {
+    onSearch();
+  };
 
-  // if (!data) {
-  //   return <div>Loading...</div>;
-  // }
+  const onPressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSearch();
+    }
+  };
 
   return (
     <main className="py-4 px-10 ">
       <h1 className="text-3xl font-bold pb-5">영커플 선교회 회원 관리</h1>
       <div className="flex flex-col gap-6">
-        <div className="flex justify-between">
-          <div className="flex gap-2">
+        <div className="flex justify-between gap-4">
+          <div className="flex-1 max-w-[500px] flex gap-2">
             <Input
               placeholder={"이름으로 검색..."}
-              // value={query}
+              defaultValue={queryUrl || ""}
+              value={query || ""}
               onChange={onChangeQuery}
+              onKeyDown={onPressEnter}
             />
-            <Button>검색</Button>
+            <Button onClick={onClickSearch}>검색</Button>
           </div>
           <Button type="primary" onClick={() => navigate("/add/user")}>
             신규 회원 등록
