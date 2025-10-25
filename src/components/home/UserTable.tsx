@@ -1,17 +1,20 @@
 import { Table, type TableProps } from "antd";
-import { useNavigate } from "react-router-dom";
-import { type Members, type ResponseMember } from "../../utils/api/api";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  getMemers,
+  type Members,
+  type ResponseMember,
+} from "../../utils/api/api";
+import { translate_ko } from "../../utils/function/function";
+import { PAGENATION_SIZE } from "../../utils/const/const";
+import { usePaginationStore } from "../../stores/usePaginationStore";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import useUserPagination from "../../utils/hooks/useUserPagination";
 
-const UserTable = ({
-  data,
-  setCurrentPage,
-}: {
-  data: Members | undefined;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+const UserTable = () => {
+  console.log("🚀 ~ UserTable ~ render", performance.now());
   const navigate = useNavigate();
-
-  console.log("🚀 ~ UserTable ~ dat:", data);
+  const { data, onChangePage } = useUserPagination();
 
   const columns: TableProps<ResponseMember>["columns"] = [
     {
@@ -38,17 +41,7 @@ const UserTable = ({
       key: "position",
       title: "직분",
       dataIndex: "position",
-      render: (value) => (
-        <div>
-          {value === "SAINT"
-            ? "성도"
-            : value === "KWONSA"
-            ? "권사"
-            : value === "DEACONESS"
-            ? "집사"
-            : "회원"}
-        </div>
-      ),
+      render: (value) => <div>{translate_ko(value)}</div>,
     },
     // {
     //   key: "barnabasEducation",
@@ -89,13 +82,11 @@ const UserTable = ({
       dataSource={data?.items}
       columns={columns}
       onChange={(pagination) => {
-        if (pagination.current) {
-          setCurrentPage(pagination.current);
-        }
+        onChangePage(pagination.current);
       }}
       pagination={{
         total: data?.total,
-        pageSize: 10,
+        pageSize: PAGENATION_SIZE,
       }}
     />
   );

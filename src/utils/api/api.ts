@@ -80,7 +80,7 @@ export const deleteMember = async (id: string): Promise<void> => {
 
 export interface Member {
   name: string;
-  position: string | "SAINT"; // | 'KWONSA' | 'DEACONESS' | 'MEMBER'
+  position: string | "SAINT" | "KWONSA" | "GANSA" | "EDUCATOR"; // |  | 'DEACONESS' | 'MEMBER'
   barnabasEducation: string | "COMPLETED"; // | 'NOT_COMPLETED'
   baptism: string | "RECEIVED"; // | 'NOT_RECEIVED' | 'UNDECIDED'
   discipleship: string | "COMPLETED"; // | 'NOT_COMPLETED'

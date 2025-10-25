@@ -5,6 +5,7 @@ import { postMember, type Member } from "../utils/api/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { emptyStringToNull } from "../utils/function/function";
+import { OPTIONS } from "../utils/const/const";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const initForm = {
@@ -139,11 +140,7 @@ const AddUser = () => {
                 rules={[{ required: true, message: "선택해주세요" }]}
               >
                 <Select
-                  options={[
-                    { value: "SAINT", label: "성도" },
-                    { value: "DEACON", label: "집사" },
-                    { value: "KWONSA", label: "권사" },
-                  ]}
+                  options={OPTIONS.position}
                   onChange={(value) =>
                     onChangeSelect({ name: "position", value })
                   }

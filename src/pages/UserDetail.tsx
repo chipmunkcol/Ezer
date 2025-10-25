@@ -7,7 +7,7 @@ import { translate_ko } from "../utils/function/function";
 
 const UserDetail = () => {
   const { id } = useParams();
-  console.log("🚀 ~ UserDetail ~ id:", id);
+  // console.log("🚀 ~ UserDetail ~ id:", id);
   const navigate = useNavigate();
 
   const { data, isLoading, error } = useQuery({
@@ -110,11 +110,6 @@ const UserDetail = () => {
 
         <div className="flex flex-col gap-4">
           <div>추가정보</div>
-          {/* <div>소속셀</div>
-          <div>생년월일</div>
-          <div>전화번호</div>
-          <div>등록일</div>
-          <div>소속가족</div> */}
           <div className="flex">
             <div className="flex-1">소속셀: {data?.cellId || "미정"}</div>
             <div className="flex-1">소속가족: {data?.familyId || "미정"}</div>

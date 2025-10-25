@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getMemberById, updateMember, type Member } from "../utils/api/api";
 import { initForm } from "./AddUser";
 import { emptyStringToNull, translate_ko } from "../utils/function/function";
+import { OPTIONS } from "../utils/const/const";
 
 const EditUser = () => {
   const { id } = useParams();
@@ -199,13 +200,7 @@ const EditUser = () => {
                   name="position"
                   rules={[{ required: true, message: "직분을 입력해주세요." }]}
                 >
-                  <Select
-                    options={[
-                      { value: "SAINT", label: "성도" },
-                      { value: "KWONSA", label: "권사" },
-                      { value: "DEACONESS", label: "집사" },
-                    ]}
-                  />
+                  <Select options={OPTIONS.position} />
                 </Form.Item>
               </div>
               <div className="flex-1">

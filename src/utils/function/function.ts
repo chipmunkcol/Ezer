@@ -9,6 +9,8 @@ const translateObject = {
   SAINT: "성도",
   DEACON: "집사",
   KWONSA: "권사",
+  GANSA: "간사",
+  EDUCATOR: "교육사",
 } as const;
 
 type TranslateKey = keyof typeof translateObject;
