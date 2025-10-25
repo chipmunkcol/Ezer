@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { User } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteMember, getMemberById } from "../utils/api/api";
-import { translate_ko } from "../utils/function/function";
+import { formatPhoneNumber, translate_ko } from "../utils/function/function";
 
 const UserDetail = () => {
   const { id } = useParams();
@@ -84,7 +84,7 @@ const UserDetail = () => {
           <div className="flex">
             <div className="flex-1">이름: {data?.name}</div>
             <div className="flex-1">
-              바나바교육 {data?.barnabasEducation === "COMPLETED" ? "O" : "X"}{" "}
+              바나바교육: {data?.barnabasEducation === "COMPLETED" ? "O" : "X"}{" "}
             </div>
           </div>
           <div className="flex">
@@ -92,7 +92,7 @@ const UserDetail = () => {
               성별: {data?.gender === "MALE" ? "남" : "여"}
             </div>
             <div className="flex-1">
-              세례 여부 {data?.baptism === "RECEIVED" ? "O" : "X"}
+              세례 여부: {data?.baptism === "RECEIVED" ? "O" : "X"}
             </div>
           </div>
           <div className="flex">
@@ -100,7 +100,7 @@ const UserDetail = () => {
               직분: {translate_ko(data?.position || "")}
             </div>
             <div className="flex-1">
-              제자반 여부 {data?.discipleship === "COMPLETED" ? "O" : "X"}
+              제자반 여부: {data?.discipleship === "COMPLETED" ? "O" : "X"}
             </div>
           </div>
         </div>
@@ -116,7 +116,9 @@ const UserDetail = () => {
           </div>
           <div className="flex">
             <div className="flex-1">생년월일: {data?.birthDate}</div>
-            <div className="flex-1">전화번호: {data?.phone}</div>
+            <div className="flex-1">
+              전화번호: {data?.phone && formatPhoneNumber(data.phone)}
+            </div>
           </div>
           <div className="flex-1">등록일: {data?.registeredAt}</div>
           <div className="flex">{/* <div className="flex-1"></div> */}</div>

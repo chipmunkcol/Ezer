@@ -1,3 +1,12 @@
+export function formatPhoneNumber(phoneNumber: string): string {
+  if (phoneNumber.length === 11) {
+    return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+  } else if (phoneNumber.length === 10) {
+    return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  }
+  return phoneNumber;
+}
+
 export function emptyStringToNull<T extends Record<string, any>>(obj: T): T {
   return Object.entries(obj).reduce((acc, [key, value]) => {
     acc[key as keyof T] = value === "" ? null : value;

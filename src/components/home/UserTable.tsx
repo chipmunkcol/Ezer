@@ -5,7 +5,7 @@ import {
   type Members,
   type ResponseMember,
 } from "../../utils/api/api";
-import { translate_ko } from "../../utils/function/function";
+import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
 import { PAGENATION_SIZE } from "../../utils/const/const";
 import { usePaginationStore } from "../../stores/usePaginationStore";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -43,24 +43,6 @@ const UserTable = () => {
       dataIndex: "position",
       render: (value) => <div>{translate_ko(value)}</div>,
     },
-    // {
-    //   key: "barnabasEducation",
-    //   title: "바나바교육",
-    //   dataIndex: "barnabasEducation",
-    //   render: (value) => (value === "COMPLETED" ? "O" : "X"),
-    // },
-    // {
-    //   key: "baptism",
-    //   title: "세례여부",
-    //   dataIndex: "baptism",
-    //   render: (value) => (value === "RECEIVED" ? "O" : "X"),
-    // },
-    // {
-    //   key: "discipleship",
-    //   title: "제자반",
-    //   dataIndex: "discipleship",
-    //   render: (value) => (value === "COMPLETED" ? "O" : "X"),
-    // },
     {
       key: "birthDate",
       title: "생년월일",
@@ -70,6 +52,7 @@ const UserTable = () => {
       key: "phone",
       title: "전화번호",
       dataIndex: "phone",
+      render: (value) => <div>{(value && formatPhoneNumber(value)) || ""}</div>,
     },
     {
       key: "registeredAt",
@@ -93,3 +76,22 @@ const UserTable = () => {
 };
 
 export default UserTable;
+
+// {
+//   key: "barnabasEducation",
+//   title: "바나바교육",
+//   dataIndex: "barnabasEducation",
+//   render: (value) => (value === "COMPLETED" ? "O" : "X"),
+// },
+// {
+//   key: "baptism",
+//   title: "세례여부",
+//   dataIndex: "baptism",
+//   render: (value) => (value === "RECEIVED" ? "O" : "X"),
+// },
+// {
+//   key: "discipleship",
+//   title: "제자반",
+//   dataIndex: "discipleship",
+//   render: (value) => (value === "COMPLETED" ? "O" : "X"),
+// },

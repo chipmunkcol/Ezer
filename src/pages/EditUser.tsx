@@ -5,9 +5,10 @@ import { User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMemberById, updateMember, type Member } from "../utils/api/api";
-import { initForm } from "./AddUser";
-import { emptyStringToNull, translate_ko } from "../utils/function/function";
 import { OPTIONS } from "../utils/const/const";
+import { emptyStringToNull, translate_ko } from "../utils/function/function";
+import { SweatAlert, SweatConfirm } from "../utils/libs/sweatAlert";
+import { initForm } from "./AddUser";
 
 const EditUser = () => {
   const { id } = useParams();
@@ -21,6 +22,9 @@ const EditUser = () => {
   });
 
   const [form, setForm] = useState<Member>(initForm);
+  // const { formatedBirthDate, onChangeBirthDate, resetBirthDateForm } =
+  //   useBirthDateForm();
+
   console.log("🚀 ~ EditUser ~ form:", form);
 
   useEffect(() => {
@@ -44,7 +48,7 @@ const EditUser = () => {
       updateMember(id, form),
     onSuccess: (data) => {
       console.log("🚀 ~ EditUser ~ data:", data);
-      alert("회원 정보가 수정되었습니다");
+      SweatAlert("회원 정보가 수정되었습니다");
       queryClient.invalidateQueries({ queryKey: ["members"] });
       navigate("/");
     },
@@ -54,7 +58,10 @@ const EditUser = () => {
     },
   });
 
-  const handleEditUser = (id: string | undefined, form: Member | null) => {
+  const handleEditUser = async (
+    id: string | undefined,
+    form: Member | null
+  ) => {
     if (!id) return;
     if (!form) return;
     if (
@@ -69,7 +76,7 @@ const EditUser = () => {
       return;
     }
 
-    const res = confirm("수정하시겠습니까?");
+    const res = await SweatConfirm("수정하시겠습니까?");
     if (res) {
       const newForm = emptyStringToNull(form);
       updateUserMutate({ id, form: newForm });
@@ -152,10 +159,7 @@ const EditUser = () => {
                   ]}
                 >
                   <Select
-                    options={[
-                      { value: "COMPLETED", label: "완료" },
-                      { value: "NOT_COMPLETED", label: "미완료" },
-                    ]}
+                    options={OPTIONS.barnabasEducation}
                     onChange={onChangeSelect}
                   />
                 </Form.Item>
@@ -168,12 +172,7 @@ const EditUser = () => {
                   name="gender"
                   rules={[{ required: true, message: "성별을 입력해주세요." }]}
                 >
-                  <Select
-                    options={[
-                      { value: "MALE", label: "남" },
-                      { value: "FEMALE", label: "여" },
-                    ]}
-                  />
+                  <Select options={OPTIONS.gender} />
                 </Form.Item>
               </div>
               <div className="flex-1">
@@ -184,12 +183,7 @@ const EditUser = () => {
                     { required: true, message: "세례 여부를 입력해주세요." },
                   ]}
                 >
-                  <Select
-                    options={[
-                      { value: "RECEIVED", label: "O" },
-                      { value: "NOT_RECEIVED", label: "X" },
-                    ]}
-                  />
+                  <Select options={OPTIONS.baptism} />
                 </Form.Item>
               </div>
             </div>
@@ -217,8 +211,8 @@ const EditUser = () => {
                     }
                     value={data?.discipleship}
                     options={[
-                      { value: "COMPLETED", label: "완료" },
-                      { value: "NOT_COMPLETED", label: "미완료" },
+                      { value: "COMPLETED", label: "O" },
+                      { value: "NOT_COMPLETED", label: "X" },
                     ]}
                   />
                 </Form.Item>
