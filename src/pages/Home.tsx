@@ -1,7 +1,6 @@
 import { Button, Input } from "antd";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserTable from "../components/home/UserTable";
-import { usePaginationStore } from "../stores/usePaginationStore";
 import useUserSearch from "../utils/hooks/useUserSearch";
 
 const Home = () => {
