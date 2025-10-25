@@ -6,7 +6,10 @@ import { PAGENATION_SIZE } from "../const/const";
 
 const useUserPagination = () => {
   const setPage = usePaginationStore((state) => state.setPage);
-  const page = usePaginationStore((state) => state.page);
+  const page = usePaginationStore((state) => {
+    return state.page;
+  });
+  console.log("🚀 ~ useUserPagination ~ page:", page);
 
   const [searchParams] = useSearchParams();
 
@@ -26,6 +29,7 @@ const useUserPagination = () => {
   return {
     data,
     onChangePage,
+    page,
   };
 };
 

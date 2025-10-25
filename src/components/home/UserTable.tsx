@@ -1,20 +1,14 @@
 import { Table, type TableProps } from "antd";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  getMemers,
-  type Members,
-  type ResponseMember,
-} from "../../utils/api/api";
-import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
+import { useNavigate } from "react-router-dom";
+import { type ResponseMember } from "../../utils/api/api";
 import { PAGENATION_SIZE } from "../../utils/const/const";
-import { usePaginationStore } from "../../stores/usePaginationStore";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
 import useUserPagination from "../../utils/hooks/useUserPagination";
 
 const UserTable = () => {
   console.log("🚀 ~ UserTable ~ render", performance.now());
   const navigate = useNavigate();
-  const { data, onChangePage } = useUserPagination();
+  const { data, onChangePage, page } = useUserPagination();
 
   const columns: TableProps<ResponseMember>["columns"] = [
     {
@@ -70,6 +64,7 @@ const UserTable = () => {
       pagination={{
         total: data?.total,
         pageSize: PAGENATION_SIZE,
+        current: page,
       }}
     />
   );
