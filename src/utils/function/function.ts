@@ -9,7 +9,8 @@ export function formatPhoneNumber(phoneNumber: string): string {
 
 export function emptyStringToNull<T extends Record<string, any>>(obj: T): T {
   return Object.entries(obj).reduce((acc, [key, value]) => {
-    acc[key as keyof T] = value === "" ? null : value;
+    acc[key as keyof T] =
+      value === "" ? null : value === undefined ? null : value;
     return acc;
   }, {} as T);
 }

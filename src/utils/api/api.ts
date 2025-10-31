@@ -22,6 +22,7 @@ export const getMemers = async (
 export const getMemberById = async (id: string): Promise<ResponseMember> => {
   try {
     const response = await api.get(`/admin/members/${id}`);
+
     return response.data;
   } catch (error) {
     const err = error as ErrorRes;
@@ -52,7 +53,7 @@ export const postMember = async (Member: Member): Promise<ResponseMember> => {
 export const updateMember = async (
   id: string,
   member: Member
-): Promise<ResponseMember> => {
+): Promise<Member> => {
   const response = await api.put(`/admin/members/${id}`, member);
   return response.data;
   // try {
@@ -80,11 +81,11 @@ export const deleteMember = async (id: string): Promise<void> => {
 
 export interface Member {
   name: string;
-  position: string | "SAINT" | "KWONSA" | "GANSA" | "EDUCATOR"; // |  | 'DEACONESS' | 'MEMBER'
-  barnabasEducation: string | "COMPLETED"; // | 'NOT_COMPLETED'
-  baptism: string | "RECEIVED"; // | 'NOT_RECEIVED' | 'UNDECIDED'
-  discipleship: string | "COMPLETED"; // | 'NOT_COMPLETED'
-  gender: string | "MALE"; // | 'FEMALE'
+  position: "SAINT" | "DEACON" | "KWONSA" | "GANSA" | "EDUCATOR"; // |  | 'DEACONESS' | 'MEMBER'
+  barnabasEducation: "COMPLETED" | "NOT_COMPLETED";
+  baptism: "RECEIVED" | "NOT_RECEIVED" | "UNKNOWN";
+  discipleship: "COMPLETED" | "NOT_COMPLETED";
+  gender: "MALE" | "FEMALE";
   phone: string | null;
   birthDate: string | null; // YYYY-MM-DD
   cellId: string | null; //

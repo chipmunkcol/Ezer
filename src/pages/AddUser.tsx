@@ -9,14 +9,15 @@ import { OPTIONS } from "../utils/const/const";
 import { SweatConfirm } from "../utils/libs/sweatAlert";
 import useBirthDateForm from "../utils/hooks/useBirthDateForm";
 
+export type MemberForm = Partial<Member>;
 // eslint-disable-next-line react-refresh/only-export-components
 export const initForm = {
-  name: "",
-  position: "",
-  barnabasEducation: "",
-  baptism: "",
-  discipleship: "",
-  gender: "",
+  name: undefined,
+  position: undefined,
+  barnabasEducation: undefined,
+  baptism: undefined,
+  discipleship: undefined,
+  gender: undefined,
   phone: null,
   birthDate: null, // "1990-01-01"
   cellId: null,
@@ -30,7 +31,7 @@ const AddUser = () => {
   const navigate = useNavigate();
 
   const [AntdForm] = Form.useForm();
-  const [form, setForm] = useState<Member>(initForm);
+  const [form, setForm] = useState<MemberForm>(initForm);
   console.log("🚀 ~ AddUser ~ form:", form);
 
   const { formatedBirthDate, onChangeBirthDate, resetBirthDateForm } =
@@ -49,12 +50,12 @@ const AddUser = () => {
     // e.preventDefault();
 
     if (
-      !form.name ||
-      !form.position ||
-      !form.gender ||
-      !form.barnabasEducation ||
-      !form.baptism ||
-      !form.discipleship
+      !form?.name ||
+      !form?.position ||
+      !form?.gender ||
+      !form?.barnabasEducation ||
+      !form?.baptism ||
+      !form?.discipleship
     ) {
       alert("필수 정보를 모두 입력해주세요.");
       return;
@@ -67,9 +68,10 @@ const AddUser = () => {
       registeredAt:
         (form.registeredAt && dayjs(form.registeredAt).format("YYYY-MM-DD")) ||
         null, // YYYY-MM-DD
-    };
+    } as Member; // 타입 단언 말고 다른 방법이 있을까?
 
     postMemberMutation.mutate(emptyStringToNull(newForm));
+    // postMemberMutation.mutate(newForm as Member);
   };
 
   const queryClient = useQueryClient();
@@ -229,13 +231,6 @@ const AddUser = () => {
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex flex-col gap-2">
               <div>생년월일</div>
-              {/* <Form.Item name={"birthDate"}>
-                <Input
-                  name="birthDate"
-                  onChange={onChangeInput}
-                  placeholder="ex) 921031"
-                />
-              </Form.Item> */}
               <div className="flex gap-1">
                 <Form.Item
                   name={"birthDateYear"}

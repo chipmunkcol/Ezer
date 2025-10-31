@@ -46,6 +46,10 @@ const UserDetail = () => {
 
   console.log("🚀 ~ UserDetail ~ data:", data);
 
+  const goHome = () => {
+    navigate("/", { relative: "route" });
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -60,7 +64,7 @@ const UserDetail = () => {
 
   return (
     <div className="max-w-4xl mx-auto py-4 px-10">
-      <a className="text-blue-400 cursor-pointer" onClick={() => navigate(-1)}>
+      <a className="text-blue-400 cursor-pointer" onClick={() => goHome()}>
         ← 목록으로 돌아가기
       </a>
       <h1 className="text-2xl font-bold pt-4">회원 상세 정보</h1>
@@ -92,7 +96,12 @@ const UserDetail = () => {
               성별: {data?.gender === "MALE" ? "남" : "여"}
             </div>
             <div className="flex-1">
-              세례 여부: {data?.baptism === "RECEIVED" ? "O" : "X"}
+              세례 여부:{" "}
+              {data?.baptism === "RECEIVED"
+                ? "O"
+                : data?.baptism === "UNKNOWN"
+                ? "알수없음"
+                : "X"}
             </div>
           </div>
           <div className="flex">
