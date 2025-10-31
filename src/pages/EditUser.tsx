@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, DatePicker, Form, Input, Select } from "antd";
+import dayjs from "dayjs";
 import { User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,10 +12,8 @@ import {
 } from "../utils/api/api";
 import { OPTIONS } from "../utils/const/const";
 import { emptyStringToNull, translate_ko } from "../utils/function/function";
-import { SweatAlert, SweatConfirm } from "../utils/libs/sweatAlert";
-import { initForm, type MemberForm } from "./AddUser";
-import dayjs from "dayjs";
 import useBirthDateForm from "../utils/hooks/useBirthDateForm";
+import { SweatAlert, SweatConfirm } from "../utils/libs/sweatAlert";
 
 export type ResponseMemberForm = Partial<ResponseMember>;
 
@@ -33,8 +32,9 @@ const EditUser = () => {
   const [form, setForm] = useState<ResponseMemberForm>({});
   const [AntdForm] = Form.useForm();
 
-  const { formatedBirthDate, onChangeBirthDate, resetBirthDateForm } =
-    useBirthDateForm(data?.birthDate);
+  const { formatedBirthDate, onChangeBirthDate } = useBirthDateForm(
+    data?.birthDate
+  );
   console.log("🚀 ~ EditUser ~ formatedBirthDate:", formatedBirthDate);
 
   // console.log("🚀 ~ EditUser ~ form:", form);
