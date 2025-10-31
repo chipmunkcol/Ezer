@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <main className="py-4 px-10 ">
-      <h1 className="text-3xl font-bold pb-5">영커플 선교회 회원 관리</h1>
+      <h1 className="text-3xl font-bold pb-5">회원 목록</h1>
       <div className="flex flex-col gap-6">
         <div className="flex justify-between gap-4">
           <div className="flex-1 max-w-[500px] flex gap-2">
