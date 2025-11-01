@@ -9,10 +9,12 @@ import { OPTIONS } from "../utils/const/const";
 import { SweatConfirm } from "../utils/libs/sweatAlert";
 import useBirthDateForm from "../utils/hooks/useBirthDateForm";
 import useNavigater from "../utils/hooks/useNavigater";
+import { useInputForm } from "../utils/hooks/useInputForm";
+import useAddUser from "../utils/hooks/addUser/useAddUser";
 
 export type MemberForm = Partial<Member>;
 // eslint-disable-next-line react-refresh/only-export-components
-export const initForm = {
+export const initForm: MemberForm = {
   name: undefined,
   position: undefined,
   barnabasEducation: undefined,
@@ -30,77 +32,23 @@ export const initForm = {
 
 const AddUser = () => {
   const navigate = useNavigate();
+  //
+  const { form, onChange, resetForm } = useInputForm(initForm);
 
   const [AntdForm] = Form.useForm();
-  const [form, setForm] = useState<MemberForm>(initForm);
+  // const [form, setForm] = useState<MemberForm>(initForm);
   console.log("🚀 ~ AddUser ~ form:", form);
 
   const { formatedBirthDate, onChangeBirthDate, resetBirthDateForm } =
     useBirthDateForm();
 
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+  const initController = () => {
+    AntdForm.resetFields();
+    resetForm();
+    resetBirthDateForm();
   };
 
-  const onChangeSelect = ({ name, value }: { name: string; value: string }) => {
-    setForm({ ...form, [name]: value });
-  };
-
-  const onSubmit = async () => {
-    // e.preventDefault();
-
-    if (
-      !form?.name ||
-      !form?.position ||
-      !form?.gender ||
-      !form?.barnabasEducation ||
-      !form?.baptism ||
-      !form?.discipleship
-    ) {
-      alert("필수 정보를 모두 입력해주세요.");
-      return;
-    }
-
-    console.log("🚀 ~ onSubmit ~ formatedBirthDate:", formatedBirthDate);
-    const newForm = {
-      ...form,
-      birthDate: formatedBirthDate,
-      registeredAt:
-        (form.registeredAt && dayjs(form.registeredAt).format("YYYY-MM-DD")) ||
-        null, // YYYY-MM-DD
-    } as Member; // 타입 단언 말고 다른 방법이 있을까?
-
-    postMemberMutation.mutate(emptyStringToNull(newForm));
-    // postMemberMutation.mutate(newForm as Member);
-  };
-
-  const queryClient = useQueryClient();
-  const postMemberMutation = useMutation({
-    mutationFn: postMember,
-    onSuccess: async (data) => {
-      console.log("회원 등록 성공:", data);
-      // 초기화
-      AntdForm.resetFields();
-      setForm(initForm);
-      resetBirthDateForm();
-
-      queryClient.invalidateQueries({ queryKey: ["members"] });
-
-      const res = await SweatConfirm(
-        "회원이 등록되었습니다.",
-        "회원 관리 페이지로 돌아가시겠습니까?"
-      );
-      if (res) {
-        navigate("/");
-      }
-    },
-    onError: (error) => {
-      console.log("회원 등록 실패:", error);
-
-      alert(error.message || "회원 등록에 실패했습니다. 다시 시도해주세요.");
-    },
-  });
+  const { onSubmit } = useAddUser(initController);
 
   const { goHome } = useNavigater();
 
@@ -112,7 +60,7 @@ const AddUser = () => {
       <h1 className="text-2xl font-bold pt-4">회원 등록 정보</h1>
 
       <Form
-        onFinish={onSubmit}
+        onFinish={() => onSubmit(form, formatedBirthDate)}
         form={AntdForm}
         // initialValues={form}
       >
@@ -127,7 +75,10 @@ const AddUser = () => {
                 name={"name"}
                 rules={[{ required: true, message: "이름을 입력해주세요" }]}
               >
-                <Input name="name" onChange={onChangeInput} />
+                <Input
+                  name="name"
+                  onChange={(e) => onChange("name", e.target.value)}
+                />
               </Form.Item>
             </div>
             <div className="flex-1">
@@ -141,9 +92,7 @@ const AddUser = () => {
                 >
                   <Select
                     options={OPTIONS.barnabasEducation}
-                    onChange={(value) =>
-                      onChangeSelect({ name: "barnabasEducation", value })
-                    }
+                    onChange={(value) => onChange("barnabasEducation", value)}
                   />
                 </Form.Item>
               </div>
@@ -160,9 +109,7 @@ const AddUser = () => {
               >
                 <Select
                   options={OPTIONS.position}
-                  onChange={(value) =>
-                    onChangeSelect({ name: "position", value })
-                  }
+                  onChange={(value) => onChange("position", value)}
                 />
               </Form.Item>
             </div>
@@ -177,9 +124,7 @@ const AddUser = () => {
                 >
                   <Select
                     options={OPTIONS.baptism}
-                    onChange={(value) =>
-                      onChangeSelect({ name: "baptism", value })
-                    }
+                    onChange={(value) => onChange("baptism", value)}
                   />
                 </Form.Item>
               </div>
@@ -199,9 +144,7 @@ const AddUser = () => {
                     { value: "MALE", label: "남" },
                     { value: "FEMALE", label: "여" },
                   ]}
-                  onChange={(value) =>
-                    onChangeSelect({ name: "gender", value })
-                  }
+                  onChange={(value) => onChange("gender", value)}
                 />
               </Form.Item>
             </div>
@@ -216,9 +159,7 @@ const AddUser = () => {
                 >
                   <Select
                     options={OPTIONS.discipleship}
-                    onChange={(value) =>
-                      onChangeSelect({ name: "discipleship", value })
-                    }
+                    onChange={(value) => onChange("discipleship", value)}
                   />
                 </Form.Item>
               </div>
@@ -310,7 +251,7 @@ const AddUser = () => {
                 name="phone"
                 placeholder="ex) 01012345678"
                 maxLength={11}
-                onChange={onChangeInput}
+                onChange={(e) => onChange("phone", e.target.value)}
               />
             </Form.Item>
           </div>
@@ -319,7 +260,8 @@ const AddUser = () => {
         <Form.Item name={"registeredAt"}>
           <DatePicker
             onChange={(_, dateString) =>
-              setForm({ ...form, registeredAt: (dateString as string) || null })
+              // setForm({ ...form, registeredAt: (dateString as string) || null })
+              onChange("registeredAt", (dateString as string) || null)
             }
             style={{ width: "100%" }}
           />
@@ -358,7 +300,8 @@ const AddUser = () => {
               <Form.Item name={"note"}>
                 <Input.TextArea
                   rows={2}
-                  onChange={(e) => setForm({ ...form, note: e.target.value })}
+                  // onChange={(e) => setForm({ ...form, note: e.target.value })}
+                  onChange={(e) => onChange("note", e.target.value)}
                 />
               </Form.Item>
             </div>
