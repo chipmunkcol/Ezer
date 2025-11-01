@@ -8,6 +8,7 @@ import { emptyStringToNull } from "../utils/function/function";
 import { OPTIONS } from "../utils/const/const";
 import { SweatConfirm } from "../utils/libs/sweatAlert";
 import useBirthDateForm from "../utils/hooks/useBirthDateForm";
+import useNavigater from "../utils/hooks/useNavigater";
 
 export type MemberForm = Partial<Member>;
 // eslint-disable-next-line react-refresh/only-export-components
@@ -101,9 +102,11 @@ const AddUser = () => {
     },
   });
 
+  const { goHome } = useNavigater();
+
   return (
     <div className="max-w-4xl mx-auto py-4 px-10">
-      <a className="text-blue-400 cursor-pointer" onClick={() => navigate(-1)}>
+      <a className="text-blue-400 cursor-pointer" onClick={goHome}>
         ← 목록으로 돌아가기
       </a>
       <h1 className="text-2xl font-bold pt-4">회원 등록 정보</h1>

@@ -14,6 +14,7 @@ import { OPTIONS } from "../utils/const/const";
 import { emptyStringToNull, translate_ko } from "../utils/function/function";
 import useBirthDateForm from "../utils/hooks/useBirthDateForm";
 import { SweatAlert, SweatConfirm } from "../utils/libs/sweatAlert";
+import useNavigater from "../utils/hooks/useNavigater";
 
 export type ResponseMemberForm = Partial<ResponseMember>;
 
@@ -107,9 +108,7 @@ const EditUser = () => {
     }
   };
 
-  const goHome = () => {
-    navigate("/", { relative: "route" });
-  };
+  const { goHome } = useNavigater();
 
   if (isLoading) {
     return <div>Loading...</div>;

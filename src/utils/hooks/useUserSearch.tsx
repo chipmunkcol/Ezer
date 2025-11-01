@@ -9,8 +9,21 @@ const useUserSearch = () => {
     console.log("✅ onSearch 실행");
     setPage(1);
     setQuery(query);
-    setSearchParams({ query });
+    // setSearchParams({ query });
+    changeParams();
   };
+
+  const changeParams = () => {
+    if (query) {
+      setSearchParams({ query: query });
+    } else {
+      setSearchParams({});
+    }
+  };
+
+  // const changeQueryUrl = () => {
+  //   setSearchParams({ query: query });
+  // };
 
   const onChangeQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -27,6 +40,7 @@ const useUserSearch = () => {
     onSearch,
     onChangeQuery,
     onPressEnter,
+    // changeQueryUrl,
   };
 };
 

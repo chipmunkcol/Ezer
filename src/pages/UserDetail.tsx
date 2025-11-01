@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteMember, getMemberById } from "../utils/api/api";
 import { formatPhoneNumber, translate_ko } from "../utils/function/function";
+import useNavigater from "../utils/hooks/useNavigater";
 
 const UserDetail = () => {
   const { id } = useParams();
@@ -45,10 +46,7 @@ const UserDetail = () => {
   };
 
   console.log("🚀 ~ UserDetail ~ data:", data);
-
-  const goHome = () => {
-    navigate("/", { relative: "route" });
-  };
+  const { goHome } = useNavigater();
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -25,4 +25,4 @@ export const OPTIONS = {
   ],
 };
 
-export const PAGENATION_SIZE = 5;
+export const PAGENATION_SIZE = 10;
