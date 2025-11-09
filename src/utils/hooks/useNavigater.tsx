@@ -13,8 +13,22 @@ const useNavigater = () => {
     }
   };
 
+  // family
+  const goAddFamily = () => {
+    navigate("/family/add");
+  };
+
+  const goEditFamily = (familyId: number) => {
+    navigate(`/family/edit/${familyId}`);
+  };
+
+  const goFamilyDetail = (familyId: number) => navigate(`/family/${familyId}`);
+
   return {
     goHome,
+    goAddFamily,
+    goEditFamily,
+    goFamilyDetail,
   };
 };
 

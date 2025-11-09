@@ -6,7 +6,7 @@ import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
 import useUserPagination from "../../utils/hooks/useUserPagination";
 
 const UserTable = () => {
-  console.log("🚀 ~ UserTable ~ render", performance.now());
+  // console.log("🚀 ~ UserTable ~ render", performance.now());
   const navigate = useNavigate();
   const { data, onChangePage, page } = useUserPagination();
 

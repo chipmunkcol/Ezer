@@ -19,7 +19,8 @@ export default defineConfig({
     proxy: {
       "/admin": {
         // target: API_URL, // 실제 API 서버
-        target: "https://hyezer-dev.webhop.me",
+        // target: "https://hyezer-dev.webhop.me",
+        target: "https://ezeryoungcouple-dev.duckdns.org",
         changeOrigin: true, // origin 헤더를 target으로 변경
         secure: false, // https 인증서 무시 (개발용)
       },

@@ -17,11 +17,10 @@ function App() {
         <Route path="/add/user" element={<AddUser />} />
         <Route path="/edit/user/:id" element={<EditUser />} />
 
-        <Route path="family" element={<Family />}>
-          <Route path=":familyId" element={<div></div>} />
-          <Route path="add" element={<div></div>} />
-          <Route path="edit/:familyId" element={<div></div>} />
-        </Route>
+        <Route path="/family" element={<Family />} />
+        <Route path="/family/:familyId" element={<div></div>} />
+        <Route path="/family/add" element={<div></div>} />
+        <Route path="/family/edit/:familyId" element={<div></div>} />
       </Routes>
     </BrowserRouter>
   );

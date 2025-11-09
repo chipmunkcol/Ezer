@@ -1,5 +1,24 @@
 import api, { type ErrorRes } from "./instance";
 
+export const getFamilies = async (
+  page: number,
+  size: number,
+  name: string | null
+): Promise<Families> => {
+  try {
+    const response = await api.get(`/admin/families`, {
+      params: name ? { page, size, name } : { page, size },
+    });
+    return response.data;
+  } catch (error) {
+    const err = error as ErrorRes;
+    throw {
+      status: err.error.status,
+      message: err.error.message,
+    };
+  }
+};
+
 export const getMemers = async (
   page: number,
   size: number,
@@ -103,6 +122,31 @@ export interface ResponseMember extends Member {
 
 export interface Members {
   items: ResponseMember[];
+  total: number;
+  page: number;
+  size: number;
+}
+
+export interface Family {
+  id: string;
+  name: string;
+  address: string | null;
+  childrenInfo: string | null;
+  notes: string | null;
+  createdAt: string; //"2025-01-01T10:00:00.000Z",
+  updatedAt: string; // "2025-01-01T10:00:00.000Z"
+  husband: {
+    id: string;
+    name: string;
+  } | null;
+  wife: {
+    id: string;
+    name: string;
+  } | null;
+}
+
+export interface Families {
+  items: Family[];
   total: number;
   page: number;
   size: number;
