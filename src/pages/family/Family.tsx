@@ -1,5 +1,4 @@
 import { Button, Input } from "antd";
-import { useNavigate } from "react-router-dom";
 import FamilyTable from "../../components/family/FamilyTable";
 import useFamilySearch from "../../utils/hooks/family/useFamilySearch";
 import useNavigater from "../../utils/hooks/useNavigater";

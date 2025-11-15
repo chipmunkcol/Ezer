@@ -2,9 +2,11 @@ import { Button, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import UserTable from "../components/home/UserTable";
 import useUserSearch from "../utils/hooks/useUserSearch";
+import useNavigater from "../utils/hooks/useNavigater";
 
 const Home = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { goAddUser } = useNavigater();
 
   return (
     <main className="py-4 px-10 ">
@@ -15,7 +17,7 @@ const Home = () => {
             <UserSearchInput />
             <UserSearchButton />
           </div>
-          <Button type="primary" onClick={() => navigate("/add/user")}>
+          <Button type="primary" onClick={goAddUser}>
             신규 회원 등록
           </Button>
         </div>

@@ -21,7 +21,8 @@ export type ResponseMemberForm = Partial<ResponseMember>;
 const EditUser = () => {
   const { id } = useParams();
   console.log("🚀 ~ UserDetail ~ id:", id);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { goUserDetail, goBack } = useNavigater();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["members", id],
@@ -63,7 +64,7 @@ const EditUser = () => {
       console.log("🚀 ~ EditUser ~ data:", data);
       SweatAlert("회원 정보가 수정되었습니다");
       queryClient.invalidateQueries({ queryKey: ["members", id] });
-      navigate(`/user/${id}`);
+      goUserDetail(id!);
     },
     onError: (error) => {
       console.log("회원 정보 수정 실패", error);
@@ -136,7 +137,7 @@ const EditUser = () => {
           <div>{data?.name}</div>
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => navigate(-1)}>취소</Button>
+          <Button onClick={goBack}>취소</Button>
           <Button type="primary" htmlType="submit" form="editUserForm">
             저장
           </Button>

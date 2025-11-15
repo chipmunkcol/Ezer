@@ -9,7 +9,8 @@ import useNavigater from "../utils/hooks/useNavigater";
 const UserDetail = () => {
   const { id } = useParams();
   // console.log("🚀 ~ UserDetail ~ id:", id);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { goHome, goEditUser } = useNavigater();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["members", id],
@@ -23,7 +24,7 @@ const UserDetail = () => {
     onSuccess: () => {
       alert("회원이 삭제되었습니다.");
       queryClient.invalidateQueries({ queryKey: ["members"] });
-      navigate("/");
+      goHome();
     },
     onError: (error) => {
       console.log("회원 삭제 실패", error);
@@ -40,13 +41,7 @@ const UserDetail = () => {
     }
   };
 
-  const goEditUser = (id: string | undefined) => {
-    if (!id) return;
-    navigate(`/edit/user/${id}`);
-  };
-
   console.log("🚀 ~ UserDetail ~ data:", data);
-  const { goHome } = useNavigater();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -74,7 +69,7 @@ const UserDetail = () => {
           <div>{data?.name}</div>
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => goEditUser(id)}>수정</Button>
+          <Button onClick={() => id && goEditUser(id)}>수정</Button>
           <Button danger onClick={() => handleUserDelete(id)}>
             삭제
           </Button>

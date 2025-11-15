@@ -26,3 +26,4 @@ export const OPTIONS = {
 };
 
 export const PAGENATION_SIZE = 10;
+export const GET_FAMILY_SIZE = 1000;

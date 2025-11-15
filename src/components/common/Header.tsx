@@ -1,17 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import useNavigater from "../../utils/hooks/useNavigater";
 
 const Header = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { goHome, goFamily } = useNavigater();
   const pathname = window.location.pathname;
   console.log("🚀 ~ Header ~ pathname:", pathname);
-
-  const goHome = () => {
-    navigate("/");
-  };
-
-  const goFamily = () => {
-    navigate("/family");
-  };
 
   const menuItems = [
     { label: "회원", path: "/", onClick: goHome },
@@ -45,7 +38,12 @@ const Header = () => {
       <h1 className="text-2xl font-semibold py-4 px-5">Ezer 영커플</h1>
       <ul className="flex relative border-b border-gray-200">
         {menuItems.map((item, idx) => {
-          const isActive = pathname === item.path;
+          // pathname이 '/' 이거나 'user' 경로일 경우 item.path === '/' 인 경우 활성화
+          // pathname이 'family' 를 포함할 경우 item.path === '/family' 인 경우 활성화
+          const isActive =
+            (item.path === "/" &&
+              (pathname === "/" || pathname.startsWith("/user"))) ||
+            (item.path === "/family" && pathname.startsWith("/family"));
           return (
             <div
               key={idx}

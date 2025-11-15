@@ -4,10 +4,12 @@ import { type ResponseMember } from "../../utils/api/api";
 import { PAGENATION_SIZE } from "../../utils/const/const";
 import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
 import useUserPagination from "../../utils/hooks/useUserPagination";
+import useNavigater from "../../utils/hooks/useNavigater";
 
 const UserTable = () => {
   // console.log("🚀 ~ UserTable ~ render", performance.now());
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { goUserDetail } = useNavigater();
   const { data, onChangePage, page } = useUserPagination();
 
   const columns: TableProps<ResponseMember>["columns"] = [
@@ -22,7 +24,7 @@ const UserTable = () => {
       title: "이름",
       dataIndex: "name",
       render: (value, record) => (
-        <a onClick={() => navigate(`/user/${record?.id}`)}>{value}</a>
+        <a onClick={() => goUserDetail(record?.id)}>{value}</a>
       ),
     },
     {

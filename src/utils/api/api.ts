@@ -19,14 +19,75 @@ export const getFamilies = async (
   }
 };
 
+export const getFamilyById = async (id: string): Promise<Family> => {
+  try {
+    const response = await api.get(`/admin/families/${id}`);
+    return response.data;
+  } catch (error) {
+    const err = error as ErrorRes;
+    throw {
+      status: err.error.status,
+      message: err.error.message,
+    };
+  }
+};
+
+export const postFamily = async (family: FamilyPayload): Promise<void> => {
+  try {
+    const response = await api.post("/admin/families", family);
+    console.log("🚀 ~ postFamily ~ response:", response);
+  } catch (error) {
+    const err = error as ErrorRes;
+    throw {
+      status: err.error.status,
+      message: err.error.message,
+    };
+  }
+};
+
+export const deleteFamily = async (id: string): Promise<void> => {
+  try {
+    await api.delete(`/admin/families/${id}`);
+  } catch (error) {
+    const err = error as ErrorRes;
+    throw {
+      status: err.error.status,
+      message: err.error.message,
+    };
+  }
+};
+
+export const updateFamily = async (
+  id: string,
+  family: Omit<Family, "id" | "createdAt" | "updatedAt">
+): Promise<Family> => {
+  try {
+    const response = await api.put(`/admin/families/${id}`, family);
+    return response.data;
+  } catch (error) {
+    const err = error as ErrorRes;
+    throw {
+      status: err.error.status,
+      message: err.error.message,
+    };
+  }
+};
+
 export const getMemers = async (
   page: number,
   size: number,
-  name: string | null
+  name?: string,
+  gender?: string
 ): Promise<Members> => {
   try {
+    const params = name
+      ? gender
+        ? { page, size, name, gender }
+        : { page, size, name }
+      : { page, size };
     const response = await api.get(`/admin/members`, {
-      params: name ? { page, size, name } : { page, size },
+      // params: name ? { page, size, name } : { page, size },
+      params: params,
     });
     return response.data;
   } catch (error) {
@@ -143,6 +204,15 @@ export interface Family {
     id: string;
     name: string;
   } | null;
+}
+
+export interface FamilyPayload {
+  name: string;
+  address: string | null;
+  husbandId: string | null;
+  wifeId: string | null;
+  childrenInfo: string | null;
+  notes: string | null;
 }
 
 export interface Families {

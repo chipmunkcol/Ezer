@@ -5,12 +5,12 @@ import { getFamilies, getMemers } from "../api/api";
 import { PAGENATION_SIZE } from "../const/const";
 import { useFamilyPaginationStore } from "../../stores/useFamilyPaginationStore";
 
-const useFailyPagination = () => {
+const useFamilyPagination = () => {
   const setPage = useFamilyPaginationStore((state) => state.setPage);
   const page = useFamilyPaginationStore((state) => {
     return state.page;
   });
-  console.log("🚀 ~ useFailyPagination ~ page:", page);
+  console.log("🚀 ~ useFamilyPagination ~ page:", page);
 
   const [searchParams] = useSearchParams();
 
@@ -34,4 +34,4 @@ const useFailyPagination = () => {
   };
 };
 
-export default useFailyPagination;
+export default useFamilyPagination;

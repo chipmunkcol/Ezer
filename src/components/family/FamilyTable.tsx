@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { type Families, type Family } from "../../utils/api/api";
 import { PAGENATION_SIZE } from "../../utils/const/const";
 import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
-import useFailyPagination from "../../utils/hooks/useFailyPagination";
+import useFamilyPagination from "../../utils/hooks/useFamilyPagination";
+import useNavigater from "../../utils/hooks/useNavigater";
 
 const FamilyTable = () => {
   // console.log("🚀 ~ FamilyTable ~ render", performance.now());
-  const navigate = useNavigate();
-  const { data, onChangePage, page } = useFailyPagination();
+  const { goFamilyDetail, goUserDetail } = useNavigater();
+  const { data, onChangePage, page } = useFamilyPagination();
   console.log("🚀 ~ FamilyTable ~ data:", data);
 
   const columns: TableProps<Family>["columns"] = [
@@ -16,20 +17,27 @@ const FamilyTable = () => {
       key: "familyName",
       title: "가족 이름",
       dataIndex: "name",
+      render: (value, record) => (
+        <a onClick={() => goFamilyDetail(record?.id)}>{value}</a>
+      ),
     },
     // 남편 이름
     {
       key: "husbandName",
       title: "남편",
       dataIndex: "husband",
-      render: (value) => <div>{value?.name}</div>,
+      render: (value, record) => (
+        <a onClick={() => goUserDetail(record?.id)}>{value?.name}</a>
+      ),
     },
     // 아내 이름
     {
       key: "wifeName",
       title: "아내",
       dataIndex: "wife",
-      render: (value) => <div>{value?.name}</div>,
+      render: (value, record) => (
+        <a onClick={() => goUserDetail(record?.id)}>{value?.name}</a>
+      ),
     },
     // 주소
     {

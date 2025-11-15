@@ -31,7 +31,8 @@ export const initForm: MemberForm = {
 };
 
 const AddUser = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { goBack } = useNavigater();
   //
   const { form, onChange, resetForm } = useInputForm(initForm);
 
@@ -313,7 +314,7 @@ const AddUser = () => {
         {/* 구분선 */}
         <div className="my-6 border-b border-gray-300" />
         <div className="flex justify-end gap-4">
-          <Button onClick={() => navigate(-1)}>취소</Button>
+          <Button onClick={goBack}>취소</Button>
           <Button htmlType="submit" type="primary">
             등록하기
           </Button>
