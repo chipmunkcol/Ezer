@@ -1,10 +1,9 @@
 import { Table, type TableProps } from "antd";
-import { useNavigate } from "react-router-dom";
 import { type ResponseMember } from "../../utils/api/api";
 import { PAGENATION_SIZE } from "../../utils/const/const";
 import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
-import useUserPagination from "../../utils/hooks/useUserPagination";
 import useNavigater from "../../utils/hooks/useNavigater";
+import useUserPagination from "../../utils/hooks/useUserPagination";
 
 const UserTable = () => {
   // console.log("🚀 ~ UserTable ~ render", performance.now());

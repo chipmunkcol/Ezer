@@ -1,9 +1,8 @@
-import { useSearchParams } from "react-router-dom";
-import { usePaginationStore } from "../../stores/usePaginationStore";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getFamilies, getMemers } from "../api/api";
-import { PAGENATION_SIZE } from "../const/const";
+import { useSearchParams } from "react-router-dom";
 import { useFamilyPaginationStore } from "../../stores/useFamilyPaginationStore";
+import { getFamilies } from "../api/api";
+import { PAGENATION_SIZE } from "../const/const";
 
 const useFamilyPagination = () => {
   const setPage = useFamilyPaginationStore((state) => state.setPage);

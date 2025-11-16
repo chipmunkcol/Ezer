@@ -1,8 +1,7 @@
 import { Button, Input } from "antd";
-import { useNavigate } from "react-router-dom";
 import UserTable from "../components/home/UserTable";
-import useUserSearch from "../utils/hooks/useUserSearch";
 import useNavigater from "../utils/hooks/useNavigater";
+import useUserSearch from "../utils/hooks/useUserSearch";
 
 const Home = () => {
   // const navigate = useNavigate();

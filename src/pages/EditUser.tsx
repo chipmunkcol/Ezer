@@ -3,7 +3,7 @@ import { Button, DatePicker, Form, Input, Select } from "antd";
 import dayjs from "dayjs";
 import { User } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   getMemberById,
   updateMember,
@@ -13,8 +13,8 @@ import {
 import { OPTIONS } from "../utils/const/const";
 import { emptyStringToNull, translate_ko } from "../utils/function/function";
 import useBirthDateForm from "../utils/hooks/useBirthDateForm";
-import { SweatAlert, SweatConfirm } from "../utils/libs/sweatAlert";
 import useNavigater from "../utils/hooks/useNavigater";
+import { SweatAlert, SweatConfirm } from "../utils/libs/sweatAlert";
 
 export type ResponseMemberForm = Partial<ResponseMember>;
 

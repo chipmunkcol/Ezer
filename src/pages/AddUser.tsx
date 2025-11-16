@@ -1,16 +1,10 @@
 import { Button, DatePicker, Form, Input, Select } from "antd";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { postMember, type Member } from "../utils/api/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
-import { emptyStringToNull } from "../utils/function/function";
+import { type Member } from "../utils/api/api";
 import { OPTIONS } from "../utils/const/const";
-import { SweatConfirm } from "../utils/libs/sweatAlert";
-import useBirthDateForm from "../utils/hooks/useBirthDateForm";
-import useNavigater from "../utils/hooks/useNavigater";
-import { useInputForm } from "../utils/hooks/useInputForm";
 import useAddUser from "../utils/hooks/addUser/useAddUser";
+import useBirthDateForm from "../utils/hooks/useBirthDateForm";
+import { useInputForm } from "../utils/hooks/useInputForm";
+import useNavigater from "../utils/hooks/useNavigater";
 
 export type MemberForm = Partial<Member>;
 // eslint-disable-next-line react-refresh/only-export-components

@@ -7,13 +7,9 @@ const commonRule = (message: string) => ({
   message,
 });
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, Form, Input, type FormInstance } from "antd";
-import { Search } from "lucide-react";
-import { useMemo, useState } from "react";
-import { getMemers, postFamily } from "../../utils/api/api";
-import { GET_FAMILY_SIZE } from "../../utils/const/const";
-import { debounce } from "../../utils/function/function";
+import { useMutation } from "@tanstack/react-query";
+import { Button, Form, Input } from "antd";
+import { postFamily } from "../../utils/api/api";
 import useNavigater from "../../utils/hooks/useNavigater";
 import { SweatConfirm } from "../../utils/libs/sweatAlert";
 import HusbandInput from "./components/HusbandInput";

@@ -17,7 +17,7 @@ const EditFamily = () => {
   const [form] = Form.useForm();
   const { goFamily, goBack, goFamilyDetail } = useNavigater();
 
-  const { data, isLoading, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["family", id],
     queryFn: () => getFamilyById(id!),
     enabled: !!id,

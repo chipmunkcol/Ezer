@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "antd";
 import { User } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { deleteMember, getMemberById } from "../utils/api/api";
 import { formatPhoneNumber, translate_ko } from "../utils/function/function";
 import useNavigater from "../utils/hooks/useNavigater";

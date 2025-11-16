@@ -1,8 +1,6 @@
 import { Table, type TableProps } from "antd";
-import { useNavigate } from "react-router-dom";
-import { type Families, type Family } from "../../utils/api/api";
+import { type Family } from "../../utils/api/api";
 import { PAGENATION_SIZE } from "../../utils/const/const";
-import { formatPhoneNumber, translate_ko } from "../../utils/function/function";
 import useFamilyPagination from "../../utils/hooks/useFamilyPagination";
 import useNavigater from "../../utils/hooks/useNavigater";
 

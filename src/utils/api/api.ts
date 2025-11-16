@@ -77,14 +77,14 @@ export const updateFamily = async (
 export const getMemers = async (
   page: number,
   size: number,
-  name?: string,
+  query?: string | null,
   gender?: string
 ): Promise<Members> => {
   try {
-    const params = name
+    const params = query
       ? gender
-        ? { page, size, name, gender }
-        : { page, size, name }
+        ? { page, size, query, gender }
+        : { page, size, query }
       : { page, size };
     const response = await api.get(`/admin/members`, {
       // params: name ? { page, size, name } : { page, size },
