@@ -75,8 +75,8 @@ const FamilyDetail = () => {
       </div>
       <div>
         <div className="flex flex-col gap-4">
+          <div className="">가족 이름(별칭): {data?.name}</div>
           <div className="flex">
-            {/* <div className="flex-2">가족 이름(별칭): {data?.name}</div> */}
             <div className="flex-1">남편: {data?.husband?.name}</div>
             <div className="flex-1">아내: {data?.wife?.name}</div>
           </div>

@@ -59,11 +59,12 @@ export const deleteFamily = async (id: string): Promise<void> => {
 
 export const updateFamily = async (
   id: string,
-  family: Omit<Family, "id" | "createdAt" | "updatedAt">
-): Promise<Family> => {
+  family: FamilyPayload
+): Promise<void> => {
   try {
     const response = await api.put(`/admin/families/${id}`, family);
-    return response.data;
+    console.log("🚀 ~ updateFamily ~ response:", response);
+    // return response.data;
   } catch (error) {
     const err = error as ErrorRes;
     throw {
